@@ -32,7 +32,7 @@ function start() {
 };
 
 function listItems() {
-    console.log("Available Items:\n");
+    console.log("Available Items:\r\n");
     connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
         for (var i = 0; i < res.length; i++) {

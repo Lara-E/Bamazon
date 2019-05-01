@@ -17,17 +17,55 @@ connection.connect(function (err) {
 
 function managerStart() {
     inquirer.prompt({
-    name: "buyOrExit",
-    type: "list",
-    message: "Would you like to purchase an item or exit?",
-    choices: ["Purchase", "Exit"]
-})
-    .then(function (answer) {
-        // based on their answer, either call the bid or the post functions
-        if (answer.buyOrExit === "Purchase") {
-            purchaseItems();
-        } else {
-            connection.end();
+        name: "managerSelect",
+        type: "list",
+        message: "What would you like to do?",
+        choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory", "Add New Product", "Exit"]
+    })
+        .then(function (answer) {
+            var selection = answer.managerSelect
+            switch (selection) {
+                case ("View Products for Sale"):
+                    viewProducts();
+                    break;
+                case ("View Low Inventory"):
+                    viewLowInventory();
+                    break;
+                case ("Add to Inventory"):
+                    addInventory();
+                    break;
+                case ("Add New Product"):
+                    addProduct();
+                    break;
+                default:
+                    connection.end();
+            };
+        });
+};
+
+function viewProducts() {
+    console.log("Available Items:\r\n");
+    connection.query("SELECT * FROM products", function (err, res) {
+        if (err) throw err;
+        for (var i = 0; i < res.length; i++) {
+            console.log("Item Number: " + res[i].id + " || Item Name: " + res[i].product_name + " || Department: " + res[i].department_name + " || Price: $" + res[i].price + " || In Stock: " + res[i].stock_quantity);
         }
+        managerStart();
+    });
+};
+
+function viewLowInventory() {
+    console.log("Items With Low Inventory: \r\n");
+    connection.query("SELECT * FROM products WHERE stock_quantity < 10", function(err, res) {
+        if (err) throw err;
+        for (var i = 0; i < res.length; i++) {
+            if (res.length === 0) {
+                console.log("No low inventory at this time.")
+            }
+            else{
+                console.log("Item Number: " + res[i].id + " || Item Name: " + res[i].product_name + " || Department: " + res[i].department_name + " || Price: $" + res[i].price + " || In Stock: " + res[i].stock_quantity);
+            }
+        }
+        managerStart();
     });
 };
