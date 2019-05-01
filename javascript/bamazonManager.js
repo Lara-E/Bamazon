@@ -55,17 +55,124 @@ function viewProducts() {
 };
 
 function viewLowInventory() {
-    console.log("Items With Low Inventory: \r\n");
-    connection.query("SELECT * FROM products WHERE stock_quantity < 10", function(err, res) {
+    connection.query("SELECT * FROM products WHERE stock_quantity < 10", function (err, res) {
         if (err) throw err;
         for (var i = 0; i < res.length; i++) {
             if (res.length === 0) {
-                console.log("No low inventory at this time.")
+                console.log("===========\r\nNo low inventory at this time.\r\n===========")
             }
-            else{
-                console.log("Item Number: " + res[i].id + " || Item Name: " + res[i].product_name + " || Department: " + res[i].department_name + " || Price: $" + res[i].price + " || In Stock: " + res[i].stock_quantity);
+            else {
+                console.log("============Items with Low Inventory:\r\nItem Number: " + res[i].id + " || Item Name: " + res[i].product_name + " || Department: " + res[i].department_name + " || Price: $" + res[i].price + " || In Stock: " + res[i].stock_quantity + "\r\n===========");
             }
         }
         managerStart();
+    });
+};
+
+function addProduct() {
+    inquirer.prompt([
+        {
+            name: "productName",
+            type: "input",
+            message: "Please enter the item name"
+        },
+        {
+            name: "departmentName",
+            type: "input",
+            message: "Please enter the department name"
+        },
+        {
+            name: "price",
+            type: "input",
+            message: "Please enter the item price",
+            validate: function (value) {
+                if (isNaN(value) === false) {
+                    return true;
+                }
+                return false;
+            }
+        },
+        {
+            name: "quantity",
+            type: "input",
+            message: "Please enter the item quatity",
+            validate: function (value) {
+                if (isNaN(value) === false) {
+                    return true;
+                }
+                return false;
+            }
+        }
+    ]).then(function (answer) {
+        connection.query(
+            "INSERT INTO products SET ?",
+            {
+                product_name: answer.productName,
+                department_name: answer.departmentName,
+                price: answer.price,
+                stock_quantity: answer.quantity
+            },
+            function (err) {
+                if (err) throw err;
+                console.log("===========\r\nYou added Item: " + answer.productName + " Department: " + answer.departmentName + " Price: $" + answer.price + " Quantity: " + answer.quantity + "\r\n==========");
+                managerStart();
+            }
+        );
+    });
+};
+
+function addInventory() {
+    console.log("Available Items:\r\n");
+    connection.query("SELECT * FROM products", function (err, res) {
+        if (err) throw err;
+        for (var i = 0; i < res.length; i++) {
+            console.log("Item Number: " + res[i].id + " || Item Name: " + res[i].product_name + " || Department: " + res[i].department_name + " || Price: $" + res[i].price + " || In Stock: " + res[i].stock_quantity);
+        }
+        inquirer.prompt([
+            {
+                name: "itemNumber",
+                type: "input",
+                message: "Please enter the item number for the item you wish to update",
+                validate: function (value) {
+                    if ((isNaN(value) === false) && (value <= res.length)) {
+                        return true;
+                    }
+                    return false;
+                }
+            },
+            {
+                name: "itemQuantity",
+                type: "input",
+                message: "Please enter the new item quantity",
+                validate: function (value) {
+                    if (isNaN(value) === false) {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+        ]).then(function (answer) {
+            var itemNum = answer.itemNumber;
+            var newQuantity = parseInt(answer.itemQuantity);
+            var itemIndex = itemNum - 1;
+            var chosenItem = res[itemIndex];
+            if (newQuantity >= 0) {
+                query = connection.query("UPDATE products SET ? WHERE ?",
+                    [
+                        {
+                            stock_quantity: newQuantity
+                        },
+                        {
+                            id: itemNum
+                        }
+                    ],
+                    function (err) {
+                        if (err) throw err;
+                        console.log("===========\r\nYou have updated " + chosenItem.product_name + " quantity to " + newQuantity + "\r\n==========")
+                        managerStart();
+                    }
+                );
+            };
+        });
     });
 };
