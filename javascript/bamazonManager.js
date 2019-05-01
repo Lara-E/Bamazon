@@ -20,7 +20,7 @@ function managerStart() {
         name: "managerSelect",
         type: "list",
         message: "What would you like to do?",
-        choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory", "Add New Product", "Exit"]
+        choices: ["View Products for Sale", "View Low Inventory", "Change Inventory", "Add New Product", "Exit"]
     })
         .then(function (answer) {
             var selection = answer.managerSelect
@@ -31,7 +31,7 @@ function managerStart() {
                 case ("View Low Inventory"):
                     viewLowInventory();
                     break;
-                case ("Add to Inventory"):
+                case ("Change Inventory"):
                     addInventory();
                     break;
                 case ("Add New Product"):
@@ -44,7 +44,7 @@ function managerStart() {
 };
 
 function viewProducts() {
-    console.log("Available Items:\r\n");
+    console.log("\r\nAvailable Items:\r\n");
     connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
         for (var i = 0; i < res.length; i++) {
@@ -55,14 +55,15 @@ function viewProducts() {
 };
 
 function viewLowInventory() {
+    console.log("\r\nItems With Low Inventory: \r\n");
     connection.query("SELECT * FROM products WHERE stock_quantity < 10", function (err, res) {
         if (err) throw err;
         for (var i = 0; i < res.length; i++) {
             if (res.length === 0) {
-                console.log("===========\r\nNo low inventory at this time.\r\n===========")
+                console.log("===========\r\nNo low inventory at this time.")
             }
             else {
-                console.log("============Items with Low Inventory:\r\nItem Number: " + res[i].id + " || Item Name: " + res[i].product_name + " || Department: " + res[i].department_name + " || Price: $" + res[i].price + " || In Stock: " + res[i].stock_quantity + "\r\n===========");
+                console.log("\r\nItem Number: " + res[i].id + " || Item Name: " + res[i].product_name + " || Department: " + res[i].department_name + " || Price: $" + res[i].price + " || In Stock: " + res[i].stock_quantity + "\r\n==========");
             }
         }
         managerStart();
@@ -122,7 +123,7 @@ function addProduct() {
 };
 
 function addInventory() {
-    console.log("Available Items:\r\n");
+    console.log("\r\nAvailable Items:\r\n");
     connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
         for (var i = 0; i < res.length; i++) {

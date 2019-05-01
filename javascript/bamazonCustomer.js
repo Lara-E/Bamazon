@@ -32,7 +32,7 @@ function start() {
 };
 
 function listItems() {
-    console.log("Available Items:\r\n");
+    console.log("\r\nAvailable Items:\r\n");
     connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
         for (var i = 0; i < res.length; i++) {
@@ -86,7 +86,7 @@ function purchaseItems() {
                     ],
                     function (err) {
                         if (err) throw err;
-                        console.log("===========\r\nYou have ordered " + quantity + " " + chosenItem.product_name + " . Your total is $" + chosenItem.price * quantity + ". \r\nThank you for shopping with us.\r\n==========")
+                        console.log("===========\r\nYou have ordered " + quantity + " " + chosenItem.product_name + ". Your total is $" + (chosenItem.price * quantity) + ". \r\nThank you for shopping with us.\r\n==========")
                         listItems();
                     }
                 );
