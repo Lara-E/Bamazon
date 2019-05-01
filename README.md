@@ -1,7 +1,7 @@
 # Bamazon
 Bamazon is an product ordering and inventory tracking app that runs in node. It has features designed for both customers as well as store managers.
 
-**Note:** *In order for Bamazon to run properly: After cloning the repository, you must supply your own .env file containing your Database host, port, root, user, password, and name. The schema.sql will need to be run in MySQL Workbench. You can either use the seeds.sql to populate your table or add your own products using the format in the seeds.sql file. You will also need to run npm install.*
+**In order for Bamazon to run properly:** *After cloning the repository, you must supply your own .env file containing your Database host, port, root, user, password, and name. The schema.sql will need to be run in MySQL Workbench. You can either use the seeds.sql to populate your table or add your own products using the format in the seeds.sql file. You will also need to run npm install.*
 
 ## How to Use Bamazon as a Customer
 Run the bamazomCustomer.js in node. The user will be asked whether they would like to purchase an item or exit and a list of all available items for sale will be displayed. This list shows the Item Number, Item Name, Department, Price and the Quantity in Stock. If exit is chosen app will disconnect from the database and exit node.
@@ -19,7 +19,7 @@ Run the bamazonManager.js in node. The user will be asked what they would like t
 
 ### View Products for Sale
 ![Alt Text](./images/managerview.png)
-If the user chooses to View Products for Sale, the a list with the Item Number, Item Name, Department, Price and the Quantity in Stock will be displayed and the user will be asked to enter what they would like to do next.
+If the user chooses to View Products for Sale, a list with the Item Number, Item Name, Department, Price and the Quantity in Stock will be displayed and the user will be asked to enter what they would like to do next.
 
 ### View Low Inventory
 ![Alt Text](./images/managerlowinventory.png)
@@ -40,3 +40,6 @@ If the user choose to Add New Product, they will be prompted to enter the new it
 - npm inquirer
 - npm dotenv
 - MySQL Workbench
+
+## Author
+Lara Eller
