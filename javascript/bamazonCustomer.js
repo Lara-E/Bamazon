@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config();
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 var connection = mysql.createConnection({
@@ -7,7 +7,7 @@ var connection = mysql.createConnection({
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.DB_DATABASE
-})
+});
 
 connection.connect(function (err) {
     if (err) throw err;
@@ -21,16 +21,16 @@ function start() {
         type: "list",
         message: "Would you like to purchase an item or exit?",
         choices: ["Purchase", "Exit"]
-      })
-      .then(function(answer) {
-        // based on their answer, either call the bid or the post functions
-        if (answer.buyOrExit === "Purchase") {
-          purchaseItems();
-        } else {
-          connection.end();
-        }
-      });
-  }
+    })
+        .then(function (answer) {
+            // based on their answer, either call the bid or the post functions
+            if (answer.buyOrExit === "Purchase") {
+                purchaseItems();
+            } else {
+                connection.end();
+            }
+        });
+};
 
 function listItems() {
     console.log("Available Items:\n");
@@ -96,7 +96,6 @@ function purchaseItems() {
                 console.log("==========\r\nSorry, we do not have enough product left in stock to complete this order, please update your order quantity.\r\n==========")
                 listItems();
             }
-
         });
-    })
-}
+    });
+};
