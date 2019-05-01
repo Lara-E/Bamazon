@@ -8,4 +8,5 @@ VALUES
     ("Royal Wulff Dry Fly", "Fishing", 0.57, 239),
     ("4-Person Dome Tent", "Camping Equipment", 44.99, 21),
     ("Adult Nylon Life Jacket", "Water Sports", 15.99, 43),
-    ("Inflatable Fishing Pontoon", "Fishing", 259.99, 13);
+    ("Inflatable Fishing Pontoon", "Fishing", 259.99, 13),
+    ("98 Piece Emergency Survival Kit", "Safety Equipment", 39.99, 62);
