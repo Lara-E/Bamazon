@@ -23,7 +23,6 @@ function start() {
         choices: ["Purchase", "Exit"]
     })
         .then(function (answer) {
-            // based on their answer, either call the bid or the post functions
             if (answer.buyOrExit === "Purchase") {
                 purchaseItems();
             } else {
